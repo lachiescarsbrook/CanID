@@ -38,37 +38,43 @@ conda activate snakemake
 ```
 
 ### **Clone the CanID repository**
-
+All of the rules, scripts, and environments required by this `snakemake` workflow can be downloaded from the `CanID` repository as follows: 
 ```
 git clone https://github.com/lachiescarsbrook/CanID.git
+cd CanID
 ```
 
-### **Download Reference Genome**
-Genotypes were called against the canFam3.1 reference genome assembly
-`wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/002/285/GCA_000002285.4_Dog10K_Boxer_Tasha/GCA_000002285.4_Dog10K_Boxer_Tasha_genomic.fna.gz`
-
-workflow/files
-
-Index the reference genome:
+### **Download the Reference Genome**
+As the genotypes in the reference panel were called against the [CanFam3.1](https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_000002285.5) dog genome assembly, and the workflow utilises the Y-chromosome for sex determination, we have released a custom reference genome. Ensure you are in the CanID directory, and download using:
 
 ```
-bwa index
+wget https://github.com/lachiescarsbrook/CanID/releases/download/1.0/canFam3_withY.fa.gz workflow/files/canFam3_withY.fa.gz
+gunzip workflow/files/canFam3_withY.fa.gz
 ```
 
-### **Quick Start**
-`CanID` requires two user-modified files to run, both located in the `config` directory:
+The reference genome must then be indexed using [`bwa`](https://academic.oup.com/bioinformatics/article/25/14/1754/225615), which can be installed using conda:
 
-**1.** `user_config.yaml` – used to set the run name, and specify the paths to both the `sample_file_list.tsv`, and the downloaded dog reference genome (canFam3.1). There are also optional parameters that can be modified.
+```
+conda install -n bwa bwa
+conda activate bwa
+bwa index workflow/files/canFam3_withY.fa
+conda deactivate bwa
+```
 
-**2.** `sample_file_list.tsv` – provides a list of library names, sample names, and paths to the paired-end sequencing reads (which must have either a .fq or .fastq suffix)
+## **Quick Start**
+The `CanID` workflow requires parameters in two user-modified files to run, both of which are located in the `config` directory:
 
-| Library_Name | Sample_Name | Path |
+**1.** `user_config.yaml` – used to set the run name, and specify the paths to both the `sample_file_list.tsv`, and the custom CanFam3.1 reference genome. There are also optional parameters that can be modified.
+
+**2.** `sample_file_list.tsv` – provides a list of library names, sample names, and paths to the paired-end sequencing reads (which must have either the .fq.gz or .fastq.gz suffix)
+
+| Library Name | Sample Name | Path |
 |-----------|-----|--------|
-| LS0001_1 | NZ_Dog | path/to/directory/with/files |
-| LS0001_2 | NZ_Dog | path/to/directory/with/files/ |
-| LS0002 | Australia_Dog | path/to/directory/with/files/ |
+| LS0001_A1 | NZ_Dog | path/to/directory/with/reads |
+| LS0001_A2 | NZ_Dog | path/to/directory/with/reads |
+| LS0002 | Australia_Dog | path/to/directory/with/reads |
 
-The `Sample_Name` column can be used to combine reads from the same individual across multiple lanes or sequencing runs, or simply to change the name of the files generated (must be <39 characters).
+The `Library Name` string must exatcly match the ID found in the name of the paired-end files (e.g. LS0001_A1_L001.fastq.gz). The `Sample Name` column can be used to combine reads from the same individual across multiple lanes or libraries, or simply to change the name of the files generated (must be <39 characters).
 Please note, that a header **must not be included** in the `sample_file_list.tsv`. 
 
 ```
@@ -87,9 +93,9 @@ Sites used in SNP capture, filtered for maf (0.01)
 
 
 ## **Report Errors**
-
+<br>
 
 ## **Citation**
 
 ## **References**
-Bergstrom et al. 2022
+(Lindblad-Toh et al. 2005)
