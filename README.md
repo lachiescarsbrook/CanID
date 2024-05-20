@@ -7,7 +7,7 @@ With as few as 500 SNPs, `CanID` is 100% accurate at distinguishing dogs and wol
 
 
 
-![Alt text](path/to/image)
+![Alt text](CanID/CanID_Benchmark.jpeg)
 
 ## **Setup**
 
