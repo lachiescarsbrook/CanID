@@ -98,7 +98,7 @@ snakemake --use-conda --cores 40
 Note: the number of cores can be altered to maximise available CPU.
 
 ## **Workflow Overview**
-
+![Sample Image](CanID_Workflow.jpg)
 
 
 ## **Output**
