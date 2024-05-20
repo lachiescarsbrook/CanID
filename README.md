@@ -62,7 +62,6 @@ conda deactivate bwa
 ```
 
 ```
-TAG="v1.0"
 wget https://github.com/lachiescarsbrook/CanID/releases/download/${TAG}/ | grep -Eo 'https://github.com/lachiescarsbrook/CanID/releases/download/${TAG}/[^"]+' > reference_files.txt
 wget -i reference_files.txt
 ```
