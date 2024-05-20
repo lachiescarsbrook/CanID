@@ -7,9 +7,9 @@
 **Figure 1.** Benchmarking of CanID using published ancient dogs and wolves, representative of all modern diversity. For each sample, a given number of SNPs (between 25–1,000) were randomly sampled from pseudohaploidized genomes, and run through the workflow's identification module. Accuracy of taxonomic assignment was averaged over 100 replicates for each given number of SNPs.
 
 ## **Setup**
-### **Install Snakemake**
+### **Install Snakemake using Conda**
 
-**1.** Install the [Miniconda](https://docs.anaconda.com/free/miniconda/#quick-command-line-install) package manager following the command line installation for your operating system:
+**1.** Install the [Miniconda](https://docs.anaconda.com/free/miniconda/#quick-command-line-install) package manager (if required) following the command line installation for your operating system:
 
 **For Linux/MacOS:**
 ```
@@ -44,7 +44,7 @@ git clone https://github.com/lachiescarsbrook/CanID.git
 cd CanID
 ```
 
-### **Download the Reference Genome**
+### **Download the Reference Genome and SNP Panel**
 As the genotypes in the reference panel were called against the [CanFam3.1](https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_000002285.5) dog genome assembly, and the workflow utilises the Y-chromosome for sex determination, we have released a custom reference genome. Ensure you are in the CanID directory, and download using:
 
 ```
@@ -61,10 +61,16 @@ bwa index workflow/files/canFam3_withY.fa
 conda deactivate bwa
 ```
 
-## **Quick Start**
-The `CanID` workflow requires parameters in two user-modified files to run, both of which are located in the `config` directory:
+```
+TAG="v1.0"
+wget https://github.com/lachiescarsbrook/CanID/releases/download/${TAG}/ | grep -Eo 'https://github.com/lachiescarsbrook/CanID/releases/download/${TAG}/[^"]+' > reference_files.txt
+wget -i reference_files.txt
+```
 
-**1.** `user_config.yaml` – used to set the run name, and specify the paths to both the `sample_file_list.tsv`, and the custom CanFam3.1 reference genome. There are also optional parameters that can be modified.
+## **Quick Start**
+The `CanID` workflow requires parameters specified in two user-modified files to run, both of which are located in the `config` directory:
+
+**1.** `user_config.yaml` – used to set the run name, and specify the paths to both the `sample_file_list.tsv` and the custom CanFam3.1 reference genome. There are also optional parameters that can be modified.
 
 **2.** `sample_file_list.tsv` – provides a list of library names, sample names, and paths to the paired-end sequencing reads (which must have either the .fq.gz or .fastq.gz suffix)
 
@@ -77,10 +83,18 @@ The `CanID` workflow requires parameters in two user-modified files to run, both
 The `Library Name` string must exatcly match the ID found in the name of the paired-end files (e.g. LS0001_A1_L001.fastq.gz). The `Sample Name` column can be used to combine reads from the same individual across multiple lanes or libraries, or simply to change the name of the files generated (must be <39 characters).
 Please note, that a header **must not be included** in the `sample_file_list.tsv`. 
 
+Once the `user_config.yaml` and `sample_file_list.tsv` files have been modified for a given run, the workflow, which is defined in the `Snakefile`, can be executed using the following:
+
 ```
 snakemake --unlock
 snakemake --use-conda --cores 40
 ```
+
+## **Output**
+### **Sample Summary Statistics**
+For each sample (not library), 
+
+
 
 ### **Pipeline Configuration and Specifics**
 
