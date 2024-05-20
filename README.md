@@ -39,11 +39,15 @@ conda activate snakemake
 
 ### **Clone the CanID repository**
 
-
+```
+git clone https://github.com/lachiescarsbrook/CanID.git
+```
 
 ### **Download Reference Genome**
 Genotypes were called against the canFam3.1 reference genome assembly
 `wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/002/285/GCA_000002285.4_Dog10K_Boxer_Tasha/GCA_000002285.4_Dog10K_Boxer_Tasha_genomic.fna.gz`
+
+workflow/files
 
 Index the reference genome:
 
