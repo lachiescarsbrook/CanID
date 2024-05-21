@@ -35,7 +35,7 @@ conda install -n snakemake snakemake
 conda activate snakemake
 ```
 
-### **Clone the `CanID` repository**
+### **Clone the CanID repository**
 All of the rules, scripts, and environments required by this `snakemake` workflow can be downloaded from the `CanID` repository as follows: 
 ```
 git clone https://github.com/lachiescarsbrook/CanID.git
@@ -51,7 +51,7 @@ TAG="1.0"
 wget https://github.com/lachiescarsbrook/CanID/releases/download/$TAG/canFam3_withY.fa.gz workflow/files/canFam3_withY.fa.gz
 gunzip workflow/files/canFam3_withY.fa.gz
 ```
-Note: `TAG` should reflect the most up-to-date release, which can be found here.   
+**Note:** `TAG` should reflect the most up-to-date release, which can be found [here](https://github.com/lachiescarsbrook/CanID/tags).   
 <br>
 
 The `canFam3_withY.fa` reference genome must then be indexed using [`bwa`](https://academic.oup.com/bioinformatics/article/25/14/1754/225615), which can be installed using conda:
@@ -62,6 +62,7 @@ conda activate bwa
 bwa index workflow/files/canFam3_withY.fa
 conda deactivate bwa
 ```
+<br>
 We have also released a reference panel (in binary PLINK format) containing 2,011,237 biallelic transversional SNPs, which is used to determine the taxonomic status of each sample through a combination of PCA projection and discriminant function analysis. To download, ensure you are still in the `CanID` directory, and use the following:
 
 ```
@@ -79,9 +80,12 @@ You are now ready to run `CanID`!
 ## **Quick Start**
 The `CanID` workflow requires parameters specified in two user-modified files to run, both of which are located in the `config` directory:
 
+
 **1.** `user_config.yaml`: used to set the run name, and specify the paths to both the `sample_file_list.tsv` and the custom `canFam3_withY.fa` reference genome. There are other optional parameters that can be modified.
 
+
 **2.** `sample_file_list.tsv`: provides a list of library names, sample names, and paths to the paired-end sequencing reads (which must have either the .fq.gz or .fastq.gz suffix)
+
 
 | Library Name | Sample Name | Path |
 |-----------|-----|--------|
@@ -89,7 +93,9 @@ The `CanID` workflow requires parameters specified in two user-modified files to
 | LS0001_A2 | NZ_Dog | path/to/directory/with/reads |
 | LS0002 | Australia_Dog | path/to/directory/with/reads |
 
-The `Library Name` string must exatcly match the ID found in the name of the paired-end files (e.g. LS0001_A1_L001.fastq.gz). The `Sample Name` column can be used to combine reads from the same individual across multiple lanes or libraries, or simply to change the name of the files generated (must be <39 characters). Please note, that a header **must not be included** in the `sample_file_list.tsv`. 
+The `Library Name` string must exatcly match the ID found in the name of the paired-end files (e.g. LS0001_A1_L001.fastq.gz). The `Sample Name` column can be used to combine reads from the same individual across multiple lanes or libraries, or simply to change the name of the files generated (must be <39 characters). 
+
+**Note:** a header **must not be included** in the `sample_file_list.tsv`. 
 
 Once the user-specific parameters have been specified in the `user_config.yaml` and `sample_file_list.tsv`, the workflow, which is defined in the `Snakefile`, can be executed using the following:
 
@@ -97,7 +103,7 @@ Once the user-specific parameters have been specified in the `user_config.yaml` 
 snakemake --unlock
 snakemake --use-conda --cores 40
 ```
-Note: the number of cores can be altered to maximise available CPU.
+**Note:** the number of cores can be altered to maximise available CPU.
 
 ## **Workflow Overview**
 ![Sample Image](CanID_Workflow.jpg)
@@ -110,7 +116,32 @@ Note: the number of cores can be altered to maximise available CPU.
 
 ## **Output**
 ### **Sample Summary Statistics**
-For each `Sample`, the following statistics are calculated:`Total_Reads`: number of collapsed reads. `Mapped_Reads_NoDup`: percentage of collapsed reads which mapped to the reference genome, excluding PCR duplicates. `Mapped_Reads_Q30_NoDup`: percentage of collapsed reads which mapped to the reference genome, excluding PCR duplicates and reads with mapping quality <30. `Duplicates`: proportion of reads representing PCR duplicates. `mtDNA_Reads`: number of collapsed reads which map to the mitochondrial genome. `mtDNA_Depth`: average depth of coverage across the mitochondrial genome. `mtDNA_Breadth`: average breadth of coverage across the mitochondrial genome. `SNPs`: number of pseudohaploid SNPs called. `Mapped_Length_Mean` `Mapped_Length_SD`: mean length and standard deviation of mapped collapsed reads. `All_Length_Mean` `All_Length_SD`: mean length and standard deviation of all collapsed reads. `C-toT`: proportion of 5' C-to-T nucleotide substitutions. `G-to-A`: proportion of 3' G-to-A nucleotide substitutions
+For each `Sample`, the following statistics are calculated:
+<br>
+`Total_Reads`: number of collapsed reads. 
+<br>
+`Mapped_Reads_NoDup`: percentage of collapsed reads which mapped to the reference genome, excluding PCR duplicates. 
+<br>
+`Mapped_Reads_Q30_NoDup`: percentage of collapsed reads which mapped to the reference genome, excluding PCR duplicates and reads with mapping quality <30.
+<br>
+`Duplicates`: proportion of reads representing PCR duplicates.
+<br>
+`mtDNA_Reads`: number of collapsed reads which map to the mitochondrial genome.
+<br>
+`mtDNA_Depth`: average depth of coverage across the mitochondrial genome.
+<br>
+`mtDNA_Breadth`: average breadth of coverage across the mitochondrial genome.
+<br>
+`SNPs`: number of pseudohaploid SNPs called.
+<br>
+`Mapped_Length_Mean` `Mapped_Length_SD`: mean length and standard deviation of mapped collapsed reads.
+<br>
+`All_Length_Mean` `All_Length_SD`: mean length and standard deviation of all collapsed reads.
+<br>
+`C-toT`: proportion of 5' C-to-T nucleotide substitutions.
+<br>
+`G-to-A`: proportion of 3' G-to-A nucleotide substitutions.
+<br>
 
 ### **Taxonomic Assignment**
 `CanID` outputs a PCA, constructed using the reference panel 
