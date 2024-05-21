@@ -1,13 +1,11 @@
 # CanID: Accurate discrimination of ancient dogs and wolves
 
 ## **Introduction**
-`CanID` is a `snakemake` workflow which takes low-pass (i.e. screening) sequencing data as input, and accurately determines the taxonomic status of each sample (i.e. dog or wolf), as well as calculating a suite of summary statistics. With as few as 500 SNPs (Fig. 1), `CanID` is 100% accurate at distinguishing all dogs and wolves (both modern and ancient), including pre-contact American dogs and extinct Pleistocene wolves, whose ancestry is largely unrepresented in contemporary canid populations.
-
-![Sample Image](CanID_Benchmark.jpg)
-**Figure 1.** Benchmarking of CanID using published ancient dogs and wolves, representative of all modern diversity. For each sample, a given number of SNPs (between 25–1,000) were randomly sampled from pseudohaploidized genomes, and run through the workflow's identification module. Accuracy of taxonomic assignment was averaged over 100 replicates for each given number of SNPs.
+`CanID` takes low-pass (i.e. screening) sequencing data as input, and accurately determines the taxonomic status of each sample (i.e. dog or wolf), as well as calculating a suite of summary statistics. With as few as 500 SNPs (Fig. 1), `CanID` is 100% accurate at distinguishing all dogs and wolves (both modern and ancient), including pre-contact American dogs and extinct Pleistocene wolves, whose ancestry is largely unrepresented in contemporary canid populations.
 
 ## **Setup**
 ### **Install Snakemake using Conda**
+`CanID` utilises the `snakemake` workflow. The following three steps outline the installation of `snakemake` using the package manager `conda`:
 
 **1.** Install the [Miniconda](https://docs.anaconda.com/free/miniconda/#quick-command-line-install) package manager (if required) following the command line installation for your operating system:
 
@@ -48,10 +46,13 @@ cd CanID
 As the genotypes in the reference panel were called against the [CanFam3.1](https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_000002285.5) dog genome assembly, and the workflow utilises the Y-chromosome for sex determination (which is absent from the original assembly), we have released a custom `canFam3_withY.fa` reference genome. To download, ensure you are in the `CanID` directory, and use the following:
 
 ```
-TAG="1.0" #This should reflect the most up-to-date release
+TAG="1.0"
+
 wget https://github.com/lachiescarsbrook/CanID/releases/download/$TAG/canFam3_withY.fa.gz workflow/files/canFam3_withY.fa.gz
 gunzip workflow/files/canFam3_withY.fa.gz
 ```
+Note: `TAG` should reflect the most up-to-date release, which can be found here.   
+<br>
 
 The `canFam3_withY.fa` reference genome must then be indexed using [`bwa`](https://academic.oup.com/bioinformatics/article/25/14/1754/225615), which can be installed using conda:
 
@@ -64,7 +65,8 @@ conda deactivate bwa
 We have also released a reference panel (in binary PLINK format) containing 2,011,237 biallelic transversional SNPs, which is used to determine the taxonomic status of each sample through a combination of PCA projection and discriminant function analysis. To download, ensure you are still in the `CanID` directory, and use the following:
 
 ```
-TAG="1.0" #This should reflect the most up-to-date release
+TAG="1.0"
+
 https://github.com/lachiescarsbrook/CanID/releases/download/$TAG/dog_wolf_panel_2M.bed workflow/files/dog_wolf_panel_2M.bed
 https://github.com/lachiescarsbrook/CanID/releases/download/$TAG/dog_wolf_panel_2M.bim workflow/files/dog_wolf_panel_2M.bim
 https://github.com/lachiescarsbrook/CanID/releases/download/$TAG/dog_wolf_panel_2M.fam workflow/files/dog_wolf_panel_2M.fam
@@ -72,12 +74,12 @@ https://github.com/lachiescarsbrook/CanID/releases/download/$TAG/sites_2M workfl
 https://github.com/lachiescarsbrook/CanID/releases/download/$TAG/sites_2M.bin workflow/files/sites_2M.bin
 https://github.com/lachiescarsbrook/CanID/releases/download/$TAG/sites_2M.idx workflow/files/sites_2M.idx
 ```
-You are now ready to run `CanID`
+You are now ready to run `CanID`!
 
 ## **Quick Start**
 The `CanID` workflow requires parameters specified in two user-modified files to run, both of which are located in the `config` directory:
 
-**1.** `user_config.yaml`: used to set the run name, and specify the paths to both the `sample_file_list.tsv` and the custom CanFam3.1 reference genome. There are also optional parameters that can be modified.
+**1.** `user_config.yaml`: used to set the run name, and specify the paths to both the `sample_file_list.tsv` and the custom `canFam3_withY.fa` reference genome. There are other optional parameters that can be modified.
 
 **2.** `sample_file_list.tsv`: provides a list of library names, sample names, and paths to the paired-end sequencing reads (which must have either the .fq.gz or .fastq.gz suffix)
 
@@ -99,6 +101,11 @@ Note: the number of cores can be altered to maximise available CPU.
 
 ## **Workflow Overview**
 ![Sample Image](CanID_Workflow.jpg)
+
+
+![Sample Image](CanID_Benchmark.jpg)
+**Figure 1.** Benchmarking of CanID using published ancient dogs and wolves, representative of all modern diversity. For each sample, a given number of SNPs (between 25–1,000) were randomly sampled from pseudohaploidized genomes, and run through the workflow's identification module. Accuracy of taxonomic assignment was averaged over 100 replicates for each given number of SNPs.
+
 
 
 ## **Output**
