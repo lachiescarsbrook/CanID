@@ -1,0 +1,11 @@
+name: duplicate_removal
+channels:
+  - conda-forge
+  - bioconda
+  - default
+dependencies:
+  - mapdamage2=2.2.2
+  - r-base=4.3.3 
+  - r-ggplot2
+  - r-Rcpp
+  - r-gam

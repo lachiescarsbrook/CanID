@@ -1,0 +1,10 @@
+name: lda
+channels:
+  - conda-forge
+  - bioconda
+  - default
+dependencies:
+  - r-base
+  - r-MASS
+  - r-dplyr
+  - r-ggplot2 

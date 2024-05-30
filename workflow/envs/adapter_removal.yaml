@@ -1,0 +1,8 @@
+name: read_process
+channels:
+  - conda-forge
+  - bioconda
+  - default
+dependencies:
+  - adapterremoval=2.3.3
+  - fastqc=0.12.1

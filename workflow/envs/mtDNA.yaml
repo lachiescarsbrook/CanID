@@ -1,0 +1,7 @@
+name: mtDNA_consensus
+channels:
+  - conda-forge
+  - bioconda
+  - default
+dependencies:
+  - samtools=1.16.1

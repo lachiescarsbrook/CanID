@@ -1,0 +1,9 @@
+name: duplicate_removal
+channels:
+  - conda-forge
+  - bioconda
+  - default
+dependencies:
+  - plink=1.90b6.21
+  - admixtools=7.0.2
+  - eigensoft=8.0.0

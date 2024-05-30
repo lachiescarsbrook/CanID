@@ -1,0 +1,9 @@
+name: angsd
+channels:
+  - conda-forge
+  - bioconda
+  - default
+dependencies:
+  - angsd=0.940
+  - plink=1.90b6.21
+  - python
