@@ -10,21 +10,26 @@ The canid identification (`CanID`) workflow takes low-pass (i.e. screening) sequ
 <br>
 
 ## **Setup**
-### **Install Snakemake using Conda**
-`CanID` utilises the `snakemake` workflow. The following three steps outline the installation of `snakemake` using the package manager `conda`:
+### **Install Snakemake using Conda/Mamba**
+`CanID` utilises the `snakemake` workflow. The following three steps outline the installation of `snakemake` using the package managers `conda`, and the faster `mamba`.
 
 **1.** Install the [Miniconda](https://docs.anaconda.com/free/miniconda/#quick-command-line-install) package manager (if required) following the command line installation for your operating system. 
 
-**2.** Install [snakemake](https://snakemake.readthedocs.io/en/stable/) using conda:
+**2.** Install [`mamba`](https://mamba.readthedocs.io/en/latest/installation/mamba-installation.html) using `conda`:
+```
+conda install -n base -c conda-forge mamba
+```
+
+**3.** Install [snakemake](https://snakemake.readthedocs.io/en/stable/getting_started/installation.html) using `mamba`:
 
 ```
-conda install -n snakemake snakemake
+mamba create -c conda-forge -c bioconda -n snakemake snakemake
 ```
 
-**3.** Activate the environment:
+**4.** Activate the environment:
 
 ```
-conda activate snakemake
+mamba activate snakemake
 ```
 
 ### **Clone the CanID repository**
