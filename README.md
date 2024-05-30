@@ -13,21 +13,7 @@ The canid identification (`CanID`) workflow takes low-pass (i.e. screening) sequ
 ### **Install Snakemake using Conda**
 `CanID` utilises the `snakemake` workflow. The following three steps outline the installation of `snakemake` using the package manager `conda`:
 
-**1.** Install the [Miniconda](https://docs.anaconda.com/free/miniconda/#quick-command-line-install) package manager (if required) following the command line installation for your operating system:
-
-**For Linux/MacOS:**
-```
-mkdir -p ~/miniconda3
-wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda3/miniconda.sh
-bash ~/miniconda3/miniconda.sh -b -u -p ~/miniconda3
-rm -rf ~/miniconda3/miniconda.sh
-```
-**For Windows:**
-```
-curl https://repo.anaconda.com/miniconda/Miniconda3-latest-Windows-x86_64.exe -o miniconda.exe
-start /wait "" miniconda.exe /S
-del miniconda.exe
-```
+**1.** Install the [Miniconda](https://docs.anaconda.com/free/miniconda/#quick-command-line-install) package manager (if required) following the command line installation for your operating system. 
 
 **2.** Install [snakemake](https://snakemake.readthedocs.io/en/stable/) using conda:
 
