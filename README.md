@@ -3,6 +3,10 @@
 ## **Introduction**
 The canid identification (`CanID`) workflow takes low-pass (i.e. screening) sequencing data as input, and accurately determines the taxonomic status of each sample (i.e. dog or wolf), as well as calculating a suite of summary statistics (Fig. 1). With as few as 500 SNPs (Fig. 2), `CanID` is 100% accurate at distinguishing all dogs and wolves (both modern and ancient), including pre-contact American dogs and extinct Pleistocene wolves, whose ancestry is largely unrepresented in contemporary canid populations. Recent dog-wolf hybrids can also be identified (Fig. 3).
 
+## **Citation**
+The manuscript which presents `CanID` is currently in preparation. In the meantime, please cite this workflow as follows: 
+- Scarsbrook, L. 2024. Canid Identification (CanID) Workflow. GitHub. https://github.com/lachiescarsbrook/CanID.
+
 ## **Workflow Overview**
 ![Sample Image](figures/CanID_Workflow.jpg)
 **Figure 1.** Overview of the `CanID` workflow, showing the function and output of each `snakemake` rule contained within the five modules.
@@ -108,6 +112,8 @@ snakemake --use-conda --cores 40
 <br>
 
 ## **Benchmarking**
+To test the accuracy of `CanID` in distinguishing dogs and wolves, we selected published ancient genomes which captured the range of extant/extinct diversity across the species (Fig. 2). For each individual, we generated pseudohaploidized genomes (to mimic the genotype calling in `CanID`), and selected a specified subset of SNPs (between 25–1000) to test the workflows identification module.
+
 ![Sample Image](figures/CanID_Benchmark_Assignment_Accuracy.jpg)
 **Figure 2.** Benchmarking of `CanID` using published ancient dog and wolf genomes, representative of all extinct and extant diversity. For each sample, a specific subset of SNPs (25–1000) were randomly sampled from pseudohaploidized genomes, and run through the workflow's identification module. We also tested the classification of individuals with mixed ancestry by generating a F1 hybrid, taking 50% of SNPs from the ancient European dog (i.e. Newgrange), and 50% from the ancient West Eurasian wolf (i.e. Pietrele). Accuracy of taxonomic assignment was averaged over 100 replicates for each given number of SNPs.
 <br>
@@ -144,8 +150,4 @@ For each `Sample`, the following statistics are also calculated, with the output
 <br>
 <br>
 
-## **Report Errors**
-<br>
-
-## **Citation**
 
