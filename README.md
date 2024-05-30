@@ -1,7 +1,7 @@
 # CanID: Accurate discrimination of ancient dogs and wolves
 
 ## **Introduction**
-The canid identification (`CanID`) workflow takes low-pass (i.e. screening) sequencing data as input, and accurately determines the taxonomic status of each sample (i.e. dog or wolf), as well as calculating a suite of summary statistics. With as few as 500 SNPs (Fig. 1), `CanID` is 100% accurate at distinguishing all dogs and wolves (both modern and ancient), including pre-contact American dogs and extinct Pleistocene wolves, whose ancestry is largely unrepresented in contemporary canid populations.
+The canid identification (`CanID`) workflow takes low-pass (i.e. screening) sequencing data as input, and accurately determines the taxonomic status of each sample (i.e. dog or wolf), as well as calculating a suite of summary statistics (Fig. 1). With as few as 500 SNPs (Fig. 2), `CanID` is 100% accurate at distinguishing all dogs and wolves (both modern and ancient), including pre-contact American dogs and extinct Pleistocene wolves, whose ancestry is largely unrepresented in contemporary canid populations. Recent dog-wolf hybrids can also be identified (Fig. 3).
 
 ## **Workflow Overview**
 ![Sample Image](figures/CanID_Workflow.jpg)
@@ -11,7 +11,7 @@ The canid identification (`CanID`) workflow takes low-pass (i.e. screening) sequ
 
 ## **Setup**
 ### **Install Snakemake using Conda/Mamba**
-`CanID` utilises the `snakemake` workflow. The following three steps outline the installation of `snakemake` using the package managers `conda`, and the faster `mamba`.
+`CanID` utilises the `snakemake` workflow. The following four steps outline the installation of `snakemake` using the package managers `conda` and `mamba`.
 
 **1.** Install the [Miniconda](https://docs.anaconda.com/free/miniconda/#quick-command-line-install) package manager (if required) following the command line installation for your operating system. 
 
@@ -20,7 +20,7 @@ The canid identification (`CanID`) workflow takes low-pass (i.e. screening) sequ
 conda install -n base -c conda-forge mamba
 ```
 
-**3.** Install [snakemake](https://snakemake.readthedocs.io/en/stable/getting_started/installation.html) using `mamba`:
+**3.** Install [`snakemake`](https://snakemake.readthedocs.io/en/stable/getting_started/installation.html) using `mamba`:
 
 ```
 mamba create -c conda-forge -c bioconda -n snakemake snakemake
@@ -45,19 +45,19 @@ As the genotypes in the reference panel were called against the [CanFam3.1](http
 ```
 TAG="1.0"
 
-wget https://github.com/lachiescarsbrook/CanID/releases/download/$TAG/canFam3_withY.fa.gz workflow/files/canFam3_withY.fa.gz
+wget https://github.com/lachiescarsbrook/CanID/releases/download/$TAG/canFam3_withY.fa.gz -O ./workflow/files/canFam3_withY.fa.gz
 gunzip workflow/files/canFam3_withY.fa.gz
 ```
 **Note:** `TAG` should reflect the most up-to-date release, which can be found [here](https://github.com/lachiescarsbrook/CanID/tags).   
 <br>
 
-The `canFam3_withY.fa` reference genome must then be indexed using [`bwa`](https://academic.oup.com/bioinformatics/article/25/14/1754/225615), which can be installed using conda:
+The `canFam3_withY.fa` reference genome must then be indexed using [`bwa`](https://academic.oup.com/bioinformatics/article/25/14/1754/225615), which can be installed using `mamba`:
 
 ```
-conda install -n bwa bwa
-conda activate bwa
+mamba create -c bioconda -n bwa bwa
+mamba activate bwa
 bwa index workflow/files/canFam3_withY.fa
-conda deactivate bwa
+mamba deactivate bwa
 ```
 <br>
 
@@ -66,12 +66,12 @@ We have also released a reference panel (in binary PLINK format) containing 2,01
 ```
 TAG="1.0"
 
-https://github.com/lachiescarsbrook/CanID/releases/download/$TAG/dog_wolf_panel_2M.bed workflow/files/dog_wolf_panel_2M.bed
-https://github.com/lachiescarsbrook/CanID/releases/download/$TAG/dog_wolf_panel_2M.bim workflow/files/dog_wolf_panel_2M.bim
-https://github.com/lachiescarsbrook/CanID/releases/download/$TAG/dog_wolf_panel_2M.fam workflow/files/dog_wolf_panel_2M.fam
-https://github.com/lachiescarsbrook/CanID/releases/download/$TAG/sites_2M workflow/files/sites_2M
-https://github.com/lachiescarsbrook/CanID/releases/download/$TAG/sites_2M.bin workflow/files/sites_2M.bin
-https://github.com/lachiescarsbrook/CanID/releases/download/$TAG/sites_2M.idx workflow/files/sites_2M.idx
+wget https://github.com/lachiescarsbrook/CanID/releases/download/$TAG/dog_wolf_panel_2M.bed -O ./workflow/files/dog_wolf_panel_2M.bed
+wget https://github.com/lachiescarsbrook/CanID/releases/download/$TAG/dog_wolf_panel_2M.bim -O ./workflow/files/dog_wolf_panel_2M.bim
+wget https://github.com/lachiescarsbrook/CanID/releases/download/$TAG/dog_wolf_panel_2M.fam -O ./workflow/files/dog_wolf_panel_2M.fam
+wget https://github.com/lachiescarsbrook/CanID/releases/download/$TAG/sites_2M -O ./workflow/files/sites_2M
+wget https://github.com/lachiescarsbrook/CanID/releases/download/$TAG/sites_2M.bin -O ./workflow/files/sites_2M.bin
+wget https://github.com/lachiescarsbrook/CanID/releases/download/$TAG/sites_2M.idx -O ./workflow/files/sites_2M.idx
 ```
 You are now ready to run `CanID`!
 <br>
@@ -81,10 +81,10 @@ You are now ready to run `CanID`!
 The `CanID` workflow requires parameters specified in two user-modified files to run, both of which are located in the `config` directory:
 
 
-**1.** `user_config.yaml`: used to set the `Run Name`, and specify the paths to both the `sample_file_list.tsv` and the custom `canFam3_withY.fa` reference genome. There are other optional parameters that can be modified.
+**1.** `user_config.yaml`: used to set the `Run Name`, and specify the paths to both the `sample_file_list.tsv` and the custom `canFam3_withY.fa` reference genome (only the first parameter is required). There are other optional parameters that can be modified.
 
 
-**2.** `sample_file_list.tsv`: provides a list of library names, sample names, and paths to the paired-end sequencing reads (which must have either the .fq.gz or .fastq.gz suffix)
+**2.** `sample_file_list.tsv`: provides a tab- or space-delimited list of library names, sample names, and paths to the paired-end sequencing reads (which must have either the .fq.gz or .fastq.gz suffix)
 
 
 | Library Name | Sample Name | Path |
