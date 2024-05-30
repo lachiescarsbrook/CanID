@@ -7,7 +7,7 @@ run: name_of_run
 #Specify the path to, and file (space-delimited) name of, list of samples formatted: LIBRARY SAMPLE_ID PATH
 files: config/sample_file_list.tsv
 #Specify the path to the CanFam3.1 dog reference genome
-path_to_reference_genome: /workflow/files/canFam3_withY.fa
+path_to_reference_genome: workflow/files/canFam3_withY.fa
 
 #############################
 #### OPTIONAL PARAMETERS ####
