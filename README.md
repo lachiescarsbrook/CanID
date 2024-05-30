@@ -3,6 +3,11 @@
 ## **Introduction**
 `CanID` takes low-pass (i.e. screening) sequencing data as input, and accurately determines the taxonomic status of each sample (i.e. dog or wolf), as well as calculating a suite of summary statistics. With as few as 500 SNPs (Fig. 1), `CanID` is 100% accurate at distinguishing all dogs and wolves (both modern and ancient), including pre-contact American dogs and extinct Pleistocene wolves, whose ancestry is largely unrepresented in contemporary canid populations.
 
+## **Workflow Overview**
+![Sample Image](CanID_Workflow.jpg)
+<br>
+<br>
+
 ## **Setup**
 ### **Install Snakemake using Conda**
 `CanID` utilises the `snakemake` workflow. The following three steps outline the installation of `snakemake` using the package manager `conda`:
@@ -63,6 +68,7 @@ bwa index workflow/files/canFam3_withY.fa
 conda deactivate bwa
 ```
 <br>
+
 We have also released a reference panel (in binary PLINK format) containing 2,011,237 biallelic transversional SNPs, which is used to determine the taxonomic status of each sample through a combination of PCA projection and discriminant function analysis. To download, ensure you are still in the `CanID` directory, and use the following:
 
 ```
@@ -76,12 +82,14 @@ https://github.com/lachiescarsbrook/CanID/releases/download/$TAG/sites_2M.bin wo
 https://github.com/lachiescarsbrook/CanID/releases/download/$TAG/sites_2M.idx workflow/files/sites_2M.idx
 ```
 You are now ready to run `CanID`!
+<br>
+<br>
 
 ## **Quick Start**
 The `CanID` workflow requires parameters specified in two user-modified files to run, both of which are located in the `config` directory:
 
 
-**1.** `user_config.yaml`: used to set the run name, and specify the paths to both the `sample_file_list.tsv` and the custom `canFam3_withY.fa` reference genome. There are other optional parameters that can be modified.
+**1.** `user_config.yaml`: used to set the `Run Name`, and specify the paths to both the `sample_file_list.tsv` and the custom `canFam3_withY.fa` reference genome. There are other optional parameters that can be modified.
 
 
 **2.** `sample_file_list.tsv`: provides a list of library names, sample names, and paths to the paired-end sequencing reads (which must have either the .fq.gz or .fastq.gz suffix)
@@ -104,64 +112,43 @@ snakemake --unlock
 snakemake --use-conda --cores 40
 ```
 **Note:** the number of cores can be altered to maximise available CPU.
+<br>
+<br>
 
-## **Workflow Overview**
-![Sample Image](CanID_Workflow.jpg)
-
-
-![Sample Image](CanID_Benchmark.jpg)
+## **Benchmarking**
+![Sample Image](CanID_Benchmark.jpg) 
 **Figure 1.** Benchmarking of CanID using published ancient dogs and wolves, representative of all modern diversity. For each sample, a given number of SNPs (between 25–1,000) were randomly sampled from pseudohaploidized genomes, and run through the workflow's identification module. Accuracy of taxonomic assignment was averaged over 100 replicates for each given number of SNPs.
-
-
+<br>
+<br>
 
 ## **Output**
-### **Sample Summary Statistics**
-For each `Sample`, the following statistics are calculated:
-<br>
-`Total_Reads`: number of collapsed reads. 
-<br>
-`Mapped_Reads_NoDup`: percentage of collapsed reads which mapped to the reference genome, excluding PCR duplicates. 
-<br>
-`Mapped_Reads_Q30_NoDup`: percentage of collapsed reads which mapped to the reference genome, excluding PCR duplicates and reads with mapping quality <30.
-<br>
-`Duplicates`: proportion of reads representing PCR duplicates.
-<br>
-`mtDNA_Reads`: number of collapsed reads which map to the mitochondrial genome.
-<br>
-`mtDNA_Depth`: average depth of coverage across the mitochondrial genome.
-<br>
-`mtDNA_Breadth`: average breadth of coverage across the mitochondrial genome.
-<br>
-`SNPs`: number of pseudohaploid SNPs called.
-<br>
-`Mapped_Length_Mean` `Mapped_Length_SD`: mean length and standard deviation of mapped collapsed reads.
-<br>
-`All_Length_Mean` `All_Length_SD`: mean length and standard deviation of all collapsed reads.
-<br>
-`C-toT`: proportion of 5' C-to-T nucleotide substitutions.
-<br>
-`G-to-A`: proportion of 3' G-to-A nucleotide substitutions.
-<br>
 
 ### **Taxonomic Assignment**
-`CanID` outputs a PCA, constructed using the reference panel 
+`CanID` generates a principal components plot, which is stored in the `results/smartpca` directory (`Run Name`_PCA_plot.pdf). This is constructed in `smartpca` from a diverse reference panel of 165 dogs and 80 wolves, onto which unknown samples are projected through eigenvector multiplication. Taxonomic status is then determined through discriminant function analysis using the first 10 principal components, with the output stored in the `results/lda/` directory (`Run Name`_posteriors.txt).
 
-### **Pipeline Configuration and Specifics**
-
-Not affected by DNA damage
-Only calls sites re
-
-INPUT
-
-Reference panel containing 2 million biallelic transversional SNPs that distinguish dogs and wolves.
-
-Sites used in SNP capture, filtered for maf (0.01)
-
+### **Sample Summary Statistics**
+For each `Sample`, the following statistics are also calculated, with the output stored in the `results/stats/` directory:
+<br>
+- `Total_Reads`: number of collapsed reads. 
+- `Mapped_Reads_NoDup`: percentage of collapsed reads which mapped to the reference genome, excluding PCR duplicates. 
+- `Mapped_Reads_Q30_NoDup`: percentage of collapsed reads which mapped to the reference genome, excluding PCR duplicates and reads with mapping quality <30.
+- `Duplicates`: proportion of reads representing PCR duplicates.
+- `Autosomal_Coverage`: mean breadth of coverage across autosomes (chr1–38).
+- `Autosome-X_Depth_Ratio`: calculated by dividing the mean autosome (chr1-38) depth of coverage, by the X-chromosome depth of coverage. Expected coverage ratios are ~0.5 for males (XY), and ~1.0 for females (XX), given variable X-chromosome copy number. 
+- `Y_Coverage`: Y-chromosome breadth of coverage. 
+- `mtDNA_Reads`: number of collapsed reads which map to the mitochondrial genome.
+- `mtDNA_Depth`: average depth of coverage across the mitochondrial genome.
+- `mtDNA_Breadth`: average breadth of coverage across the mitochondrial genome.
+- `SNPs`: number of pseudohaploid SNPs called.
+- `Mapped_Length_Mean` `Mapped_Length_SD`: mean length and standard deviation of mapped collapsed reads.
+- `All_Length_Mean` `All_Length_SD`: mean length and standard deviation of all collapsed reads.
+- `C-toT`: proportion of 5' C-to-T nucleotide substitutions.
+- `G-to-A`: proportion of 3' G-to-A nucleotide substitutions.
+<br>
+<br>
 
 ## **Report Errors**
 <br>
 
 ## **Citation**
 
-## **References**
-(Lindblad-Toh et al. 2005)
