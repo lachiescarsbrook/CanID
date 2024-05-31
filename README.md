@@ -100,7 +100,7 @@ You are now ready to run `CanID`!
 The `CanID` workflow requires parameters specified in two user-modified files to run, both of which are located in the `config` directory:
 
 
-**1.** `user_config.yaml`: used to set the `Run Name`, and specify the paths to both the `sample_file_list.tsv` and the custom `canFam3_withY.fa` reference genome (only the first parameter is required). There are other optional parameters that can be modified.
+**1.** `user_config.yaml`: used to set the `Run Name`, and specify the paths to both the `sample_file_list.tsv` and the custom `canFam3_withY.fa` reference genome (only the first parameter is required). There are other optional parameters that can be modified, which relate to mapping and mitochondrial consensus calling.
 
 
 **2.** `sample_file_list.tsv`: provides a tab- or space-delimited list of library names, sample names, and paths to the paired-end sequencing reads (which must have either the .fq.gz or .fastq.gz suffix)
