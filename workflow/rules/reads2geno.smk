@@ -127,4 +127,4 @@ rule all_stat:
     output:
         expand("results/stats/{run}_all_stats.txt", run = config["run"])
     shell:
-        "echo -e 'Sample\tTotal_Reads\tMapped_Reads_NoDup\tMapped_Reads_Q30_NoDup\tDuplicates\tmtDNA_Reads\tmtDNA_Depth\tmtDNA_Breadth\tSNPs\tMapped_Length_Mean\tMapped_Length_SD\tAll_Length_Mean\tAll_Length_SD\tC-toT\tG-to-A' > {output}; for stat in {input}; do awk 'NR==2' $stat >> {output}; done"
+        "echo -e 'Sample\tTotal_Reads\tMapped_Reads_NoDup\tMapped_Reads_Q30_NoDup\tDuplicates\tAutosomal_Coverage\tAutosome–X_Depth_Ratio\tY_Coverage\tmtDNA_Reads\tmtDNA_Depth\tmtDNA_Breadth\tSNPs\tMapped_Length_Mean\tMapped_Length_SD\tAll_Length_Mean\tAll_Length_SD\tC-toT\tG-to-A' > {output}; for stat in {input}; do awk 'NR==2' $stat >> {output}; done"
