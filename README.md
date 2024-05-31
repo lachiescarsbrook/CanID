@@ -138,18 +138,18 @@ For each `Sample`, the following statistics are also calculated, with the output
 - `Total_Reads`: number of collapsed reads. 
 - `Mapped_Reads_NoDup`: percentage of collapsed reads which mapped to the reference genome, excluding PCR duplicates. 
 - `Mapped_Reads_Q30_NoDup`: percentage of collapsed reads which mapped to the reference genome, excluding PCR duplicates and reads with mapping quality <30.
-- `Duplicates`: proportion of reads representing PCR duplicates.
-- `Autosomal_Coverage`: mean breadth of coverage across autosomes (chr1–38).
+- `Duplicates`: percentage of reads representing PCR duplicates.
+- `Autosomal_Coverage`: mean breadth of coverage (x) across autosomes (chr1–38).
 - `Autosome-X_Depth_Ratio`: calculated by dividing the mean autosome (chr1-38) depth of coverage, by the X-chromosome depth of coverage. Expected coverage ratios are ~0.5 for males (XY), and ~1.0 for females (XX), given variable X-chromosome copy number. 
-- `Y_Coverage`: Y-chromosome breadth of coverage. 
+- `Y_Coverage`: Y-chromosome breadth of coverage (x). 
 - `mtDNA_Reads`: number of collapsed reads which map to the mitochondrial genome.
 - `mtDNA_Depth`: average depth of coverage across the mitochondrial genome.
 - `mtDNA_Breadth`: average breadth of coverage across the mitochondrial genome.
 - `SNPs`: number of pseudohaploid SNPs called.
 - `Mapped_Length_Mean` `Mapped_Length_SD`: mean length and standard deviation of mapped collapsed reads.
 - `All_Length_Mean` `All_Length_SD`: mean length and standard deviation of all collapsed reads.
-- `C-toT`: proportion of 5' C-to-T nucleotide substitutions.
-- `G-to-A`: proportion of 3' G-to-A nucleotide substitutions.
+- `C-toT`: percentage of 5' C-to-T nucleotide substitutions.
+- `G-to-A`: percentage of 3' G-to-A nucleotide substitutions.
 
 ## **Benchmarking**
 To test the accuracy of `CanID` in distinguishing dogs and wolves, we selected published ancient genomes which captured the range of extant/extinct diversity across the species (Fig. 2). For each individual, we generated pseudohaploidized genomes (to mimic the genotype calling in `CanID`), and selected a specified subset of SNPs (between 25–1000) to test the workflows identification module, with 100 replicates for each given number of SNPs. We also tested the classification of individuals with mixed ancestry by generating a F1 hybrid, taking 50% of SNPs from the ancient European dog (i.e. Newgrange), and 50% from the ancient West Eurasian wolf (i.e. Pietrele).
