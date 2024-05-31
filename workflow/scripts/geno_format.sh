@@ -2,7 +2,7 @@
 PANEL=$1
 SAMPLE=$2
 #Modifies sample group and name from 'ind01 ind01' to 'Unknown $SAMPLE'
-cat results/geno/${SAMPLE}.tfam | sed "s/ind0/${SAMPLE}/g" | sed 's/^[^\t]\+/\tUnknown/' > results/geno/${SAMPLE}_upID.tfam
+cat results/geno/${SAMPLE}.tfam | sed "s/ind0/${SAMPLE}/g" | sed "s/^${SAMPLE}/Unknown/" > results/geno/${SAMPLE}_upID.tfam
 mv results/geno/${SAMPLE}_upID.tfam results/geno/${SAMPLE}.tfam
 #For .tped files with entries, REF/ALT alleles are tab-delimited, and passed through a custom python script to remove alleles not present in the reference panel
 if [ -s "results/geno/${SAMPLE}.tped" ]; then
