@@ -7,6 +7,7 @@ file=args[1]
 data=read.table(file, sep = "")
 new_column_names=c("Sample","PC1","PC2","PC3","PC4","PC5","PC6","PC7","PC8","PC9","PC10","Group")
 colnames(data) <- new_column_names
+data <-data[!data$Group %in% "Outgroup", ]
 #Separates reference panel and unknown individuals
 data$Group <- gsub(".*_Dogs", "Dogs", data$Group)
 data$Group <- gsub(".*_Wolves", "Wolves", data$Group)
