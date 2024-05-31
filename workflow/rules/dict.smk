@@ -6,7 +6,7 @@
 import pandas as pd
 
 #Import config file and add headers
-df=pd.read_csv(config["files"], header=None, skip_blank_lines=True, delim_whitespace=True, engine='python')
+df=pd.read_csv(config["files"], header=None, skip_blank_lines=True, sep='\s+', engine='python')
 df.columns=["Library","Sample_ID","Read_Path"]
 
 #Define dictionaries
