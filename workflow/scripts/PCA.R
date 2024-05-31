@@ -6,7 +6,7 @@ evec=args[1]
 data_evec=read.table(evec, sep = "")
 new_column_names=c("Sample","PC1","PC2","PC3","PC4","PC5","PC6","PC7","PC8","PC9","PC10","Group")
 colnames(data_evec) <- new_column_names
-data_evec=test[!data_evec$Group %in% "Outgroup", ]
+data_evec <-data_evec[!data_evec$Group %in% "Outgroup", ]
 #Reads eval output and calculates percentage variance
 eval=args[2]
 data_eval=read.table(eval, sep = "", header = F, col.names = c("Eigenvalue"))
