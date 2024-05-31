@@ -100,7 +100,7 @@ You are now ready to run `CanID`!
 The `CanID` workflow requires parameters specified in two user-modified files to run, both of which are located in the `config` directory:
 
 
-**1.** `user_config.yaml`: used to set the `Run Name`, and specify the paths to both the `sample_file_list.tsv` and the custom `canFam3_withY.fa` reference genome (only the first parameter is required). There are other optional parameters that can be modified, which relate to mapping and mitochondrial consensus calling.
+**1.** `user_config.yaml`: used to set the `Run` name, and specify the paths to both the `sample_file_list.tsv` and the custom `canFam3_withY.fa` reference genome (only the first parameter is required). There are other optional parameters that can be modified, which relate to mapping and mitochondrial consensus calling.
 
 
 **2.** `sample_file_list.tsv`: provides a tab- or space-delimited list of library names, sample names, and paths to the paired-end sequencing reads (which must have either the .fq.gz or .fastq.gz suffix)
@@ -129,7 +129,7 @@ snakemake --use-conda --cores 40
 ## **Output**
 
 ### **Taxonomic Assignment**
-`CanID` generates a principal components plot, which is stored in the `results/smartpca` directory (`Run Name`_PCA_plot.pdf). This is constructed in `smartpca` from a diverse reference panel of 165 dogs and 80 wolves, onto which unknown samples are projected through eigenvector multiplication. Taxonomic status is then determined through discriminant function analysis using the first 10 principal components, with the output stored in the `results/lda/` directory (`Run Name`_posteriors.txt).
+`CanID` generates a principal components plot, which is stored in the `results/smartpca` directory (`Run`_PCA_plot.pdf). This is constructed in `smartpca` from a diverse reference panel of 165 dogs and 80 wolves, onto which unknown samples are projected through eigenvector multiplication. Taxonomic status is then determined through discriminant function analysis using the first 10 principal components, with the output stored in the `results/lda/` directory (`Run`_posteriors.txt).
 
 ### **Sample Summary Statistics**
 For each `Sample`, the following statistics are also calculated, with the output stored in the `results/stats/` directory:
