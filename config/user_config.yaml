@@ -19,5 +19,11 @@ seed: 1024
 #Set edit distance 
 edit_dist: 0.01 
 
+#MTDNA CONSENSUS
+#Minimum number of bases needed to call mtDNA base
+base_depth: 1
+#Minimum consensus need to call mtDNA base
+base_con: 0.5
+
 #There is only a 2M SNP panel with this release. Future releases may have more.
 SNP_panel: 2M
