@@ -1,6 +1,6 @@
 ![Banner](figures/CanID_logo.png)
 ## **Introduction**
-The canid identification (`CanID`) workflow takes low-pass (i.e. screening) sequencing data as input, and accurately determines the taxonomic status of each sample (i.e. dog or wolf), as well as calculating a suite of summary statistics (Fig. 1). With as few as 500 SNPs (Fig. 2), `CanID` is 100% accurate at distinguishing all dogs and wolves (both modern and ancient), including pre-contact American dogs and extinct Pleistocene wolves, whose ancestry is largely unrepresented in contemporary canid populations. Recent dog-wolf hybrids can also be identified (Fig. 3).
+The Canid IDentification or `CanID` workflow takes low-pass, paired-end screening data as input, and accurately determines the taxonomic status of each sample (dog or wolf), as well as calculating a suite of summary statistics (Fig. 1). With as few as 500 SNPs (Fig. 2), `CanID` is 100% accurate at distinguishing all ancient and modern dogs and wolves, including pre-contact American dogs and extinct Pleistocene wolves, whose ancestry is largely unrepresented in contemporary canid populations. Recent dog-wolf hybrids can also be identified (Fig. 3).
 
 ## **Citation**
 The manuscript which presents `CanID` is currently in preparation. In the meantime, please cite this workflow as follows: 
@@ -129,7 +129,9 @@ snakemake --use-conda --cores 40
 ## **Output**
 
 ### **Taxonomic Assignment**
-`CanID` generates a principal components plot, which is stored in the `results/smartpca` directory (`Run`_PCA_plot.pdf). This is constructed in `smartpca` from a diverse reference panel of 165 dogs and 80 wolves, onto which unknown samples are projected through eigenvector multiplication. Taxonomic status is then determined through discriminant function analysis using the first 10 principal components, with the output stored in the `results/lda/` directory (`Run`_posteriors.txt).
+`CanID` generates a principal components plot, which is stored in the `results/smartpca` directory (`Run`_PCA_plot.pdf). This is constructed in `smartpca` from a diverse reference panel of 165 dogs and 80 wolves, onto which unknown samples are projected through eigenvector multiplication. 
+
+Taxonomic status is then determined through discriminant function analysis using the first 10 principal components, with the posterior probailities of each assignment stored in the `results/lda/` directory (`Run`_posteriors.txt). 
 
 ### **Sample Summary Statistics**
 For each `Sample`, the following statistics are also calculated, with the output stored in the `results/stats/` directory:
