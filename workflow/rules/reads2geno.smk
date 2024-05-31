@@ -69,7 +69,7 @@ rule mapdamage:
     params:
         sample = lambda wildcards: wildcards.sample
     conda:
-        "../envs/mtDNA.yaml"
+        "../envs/mapdamage.yaml"
     shell: 
         "workflow/scripts/mapdamage.sh {input.rmdup} {input.ref} {params.sample}" 
 
