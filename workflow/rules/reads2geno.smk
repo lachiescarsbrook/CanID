@@ -14,11 +14,12 @@ rule map_reads:
         out_sort = "results/map/{sample}_sorted.bam"
     params:
         seed=config["seed"],
-            editdist=config["edit_dist"]
+            editdist=config["edit_dist"],
+                mapthreads=config["map_threads"]
     conda:
         "../envs/mapping.yaml"
     shell:
-        "workflow/scripts/mapping.sh {input.adrm_reads} {input.ref} {output.out_sai} {output.out_bam} {output.out_sort} {params.seed} {params.editdist}"
+        "workflow/scripts/mapping.sh {input.adrm_reads} {input.ref} {output.out_sai} {output.out_bam} {output.out_sort} {params.seed} {params.editdist} {params.mapthreads}"
 
 #This rule removes PCR duplicates from sorted bam files 
 rule remove_duplicates:
