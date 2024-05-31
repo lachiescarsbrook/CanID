@@ -54,6 +54,7 @@ While most programs utilised by `CanID` can be installed through `mamba`, a dire
 cd workflow
 git clone https://github.com/ANGSD/angsd.git 
 cd angsd
+git checkout 0.941
 make
 cd ../../
 ```
