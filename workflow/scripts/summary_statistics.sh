@@ -34,7 +34,7 @@ autosome_depth=$(awk '$1 ~ /^chr[1-9]$|^chr1[0-9]$|^chr2[0-9]$|^chr3[0-8]$/ { su
 x_depth=$(grep "chrX" results/rmdup/${SAMPLE}_cov_stat.txt | cut -f 7)
 depth_ratio=$(awk -v auto="$autosome_depth" -v xchrom="$x_depth" 'BEGIN { result = (xchrom / auto); print result }' | awk '{printf "%.2f\n",$1}')
 #Calculates Y-chromosome coverage
-y_cov=$(grep "ChrY" results/rmdup/${SAMPLE}_cov_stat.txt | cut -f 6 | awk '{printf "%.2f\n",$1 * 100}')
+y_cov=$(grep "ChrY" results/rmdup/${SAMPLE}_cov_stat.txt | cut -f 6 | awk '{printf "%.2f\n",$1}')
 #Returns the number of mapped mitochondrial reads
 mtdna_read=$(samtools view results/rmdup/${SAMPLE}_rmdup.bam chrM | wc -l | awk '{ printf "%d\n", $1 }')
 #Returns mitochondrial consensus sequence depth of coverage
