@@ -18,6 +18,8 @@ path_to_reference_genome: workflow/files/canFam3_withY.fa
 seed: 1024
 #Set edit distance 
 edit_dist: 0.01 
+#Number of threads
+map_threads: 10
 
 #MTDNA CONSENSUS
 #Minimum number of bases needed to call mtDNA base
