@@ -3,7 +3,6 @@ SAMPLE=$1
 OUT=$2
 #Creates an empty file containing column headers
 echo -e "Sample\tTotal_Reads\tMapped_Reads_NoDup\tMapped_Reads_Q30_NoDup\tDuplicates\tAutosomal_Coverage\tAutosome-X_Depth_Ratio\tY_Coverage\tmtDNA_Reads\tmtDNA_Depth\tmtDNA_Breadth\tSNPs\tMapped_Length_Mean\tMapped_Length_SD\tAll_Length_Mean\tAll_Length_SD\tC-toT\tG-to-A" > ${OUT}
-#echo -e "Sample\tTotal_Reads\tMapped_Reads\tMapped_Reads_NoDup\tMapped_Reads_Q30\tMapped_Reads_Q30_NoDup\tDuplicates\tmtDNA_Reads\tmtDNA_Depth\tmtDNA_Breadth\tSNPs\tMapped_Length_Mean\tMapped_Length_SD\tAll_Length_Mean\tAll_Length_SD\tC-toT\tG-to-A" > ${OUT}
 #Returns the total number of collapsed reads
 total=$(samtools view results/map/${SAMPLE}.bam | wc -l)
 #Returns the number of mapped collapsed reads
