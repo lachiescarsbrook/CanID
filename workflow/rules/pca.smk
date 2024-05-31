@@ -1,6 +1,5 @@
 ################################
 ### Step 2: SmartPCA and LDA ###
-###         (6 rules)        ###
 ################################
 
 #This rule creates a list of samples to merge
