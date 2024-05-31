@@ -17,20 +17,20 @@ The manuscript which presents `CanID` is currently in preparation. In the meanti
 ### **Install Snakemake using Conda/Mamba**
 `CanID` utilises the `snakemake` workflow. The following four steps outline the installation of `snakemake` using the package managers `conda` and `mamba`.
 
-**1.** Install the [Miniconda](https://docs.anaconda.com/free/miniconda/#quick-command-line-install) package manager (if required) following the command line installation for your operating system. 
+- **1.** Install the [Miniconda](https://docs.anaconda.com/free/miniconda/#quick-command-line-install) package manager (if required) following the command line installation for your operating system. 
 
-**2.** Install [`mamba`](https://mamba.readthedocs.io/en/latest/installation/mamba-installation.html) using `conda`:
+- **2.** Install [`mamba`](https://mamba.readthedocs.io/en/latest/installation/mamba-installation.html) using `conda`:
 ```
 conda install -n base -c conda-forge mamba
 ```
 
-**3.** Install [`snakemake`](https://snakemake.readthedocs.io/en/stable/getting_started/installation.html) using `mamba`:
+- **3.** Install [`snakemake`](https://snakemake.readthedocs.io/en/stable/getting_started/installation.html) using `mamba`:
 
 ```
 mamba create -c conda-forge -c bioconda -n snakemake snakemake
 ```
 
-**4.** Activate the environment:
+- **4.** Activate the environment:
 
 ```
 mamba activate snakemake
@@ -43,7 +43,22 @@ git clone https://github.com/lachiescarsbrook/CanID.git
 cd CanID
 ```
 
-### **Download the Reference Genome and SNP Panel**
+To make all rules and scripts executable, permissions must be changed using:
+```
+chmod -R 770 workflow
+```
+
+### **Install ANGSD**
+While most programs utilised by `CanID` can be installed through `mamba`, a direct download of the genotyping tool [`angsd`](https://www.popgen.dk/angsd/index.php/ANGSD) is required to ensure the workflow is compatible with both Lunix/MacOS operating systems:
+```
+cd workflow
+git clone https://github.com/ANGSD/angsd.git 
+cd angsd
+make
+cd ../../
+```
+
+### **Download and Index the Reference Genome**
 As the genotypes in the reference panel were called against the [CanFam3.1](https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_000002285.5) dog genome assembly, and the workflow utilises the Y-chromosome for sex determination (which is absent from the original assembly), we have released a custom `canFam3_withY.fa` reference genome. To download, ensure you are in the `CanID` directory, and use the following:
 
 ```
@@ -63,8 +78,8 @@ mamba activate bwa
 bwa index workflow/files/canFam3_withY.fa
 mamba deactivate bwa
 ```
-<br>
 
+### **Download the 2M SNP Panel**
 We have also released a reference panel (in binary PLINK format) containing 2,011,237 biallelic transversional SNPs, which is used to determine the taxonomic status of each sample through a combination of PCA projection and discriminant function analysis. To download, ensure you are still in the `CanID` directory, and use the following:
 
 ```
@@ -93,9 +108,9 @@ The `CanID` workflow requires parameters specified in two user-modified files to
 
 | Library Name | Sample Name | Path |
 |-----------|-----|--------|
-| LS0001_A1 | NZ_Dog | path/to/directory/with/reads |
-| LS0001_A2 | NZ_Dog | path/to/directory/with/reads |
-| LS0002 | Australia_Dog | path/to/directory/with/reads |
+| LS0001_A1 | NZ_Kuri | path/to/directory/with/reads |
+| LS0001_A2 | NZ_Kuri | path/to/directory/with/reads |
+| LS0002 | Australian_Dingo | path/to/directory/with/reads |
 
 The `Library Name` string must exatcly match the ID found in the name of the paired-end files (e.g. LS0001_A1_L001.fastq.gz). The `Sample Name` column can be used to combine reads from the same individual across multiple lanes or libraries, or simply to change the name of the files generated (must be <39 characters). 
 
@@ -108,19 +123,6 @@ snakemake --unlock
 snakemake --use-conda --cores 40
 ```
 **Note:** the number of cores can be altered to maximise available CPU.
-<br>
-<br>
-
-## **Benchmarking**
-To test the accuracy of `CanID` in distinguishing dogs and wolves, we selected published ancient genomes which captured the range of extant/extinct diversity across the species (Fig. 2). For each individual, we generated pseudohaploidized genomes (to mimic the genotype calling in `CanID`), and selected a specified subset of SNPs (between 25–1000) to test the workflows identification module.
-
-![Sample Image](figures/CanID_Benchmark_Assignment_Accuracy.jpg)
-**Figure 2.** Benchmarking of `CanID` using published ancient dog and wolf genomes, representative of all extinct and extant diversity. For each sample, a specific subset of SNPs (25–1000) were randomly sampled from pseudohaploidized genomes, and run through the workflow's identification module. We also tested the classification of individuals with mixed ancestry by generating a F1 hybrid, taking 50% of SNPs from the ancient European dog (i.e. Newgrange), and 50% from the ancient West Eurasian wolf (i.e. Pietrele). Accuracy of taxonomic assignment was averaged over 100 replicates for each given number of SNPs.
-<br>
-<br>
-
-![Sample Image](figures/CanID_Benchmark_PCA.jpg)
-**Figure 3.** Principal components plots generated through `CanID` benchmarking for 250, 500 and 1000 SNPs. 
 <br>
 <br>
 
@@ -147,7 +149,16 @@ For each `Sample`, the following statistics are also calculated, with the output
 - `All_Length_Mean` `All_Length_SD`: mean length and standard deviation of all collapsed reads.
 - `C-toT`: proportion of 5' C-to-T nucleotide substitutions.
 - `G-to-A`: proportion of 3' G-to-A nucleotide substitutions.
+
+## **Benchmarking**
+To test the accuracy of `CanID` in distinguishing dogs and wolves, we selected published ancient genomes which captured the range of extant/extinct diversity across the species (Fig. 2). For each individual, we generated pseudohaploidized genomes (to mimic the genotype calling in `CanID`), and selected a specified subset of SNPs (between 25–1000) to test the workflows identification module, with 100 replicates for each given number of SNPs. We also tested the classification of individuals with mixed ancestry by generating a F1 hybrid, taking 50% of SNPs from the ancient European dog (i.e. Newgrange), and 50% from the ancient West Eurasian wolf (i.e. Pietrele).
+
+![Sample Image](figures/CanID_Benchmark_Assignment_Accuracy.jpg)
+**Figure 2.** Accuracy of `CanID` taxonomic assignment, averaged over 100 replicates for each given number of SNPs.
 <br>
 <br>
 
-
+![Sample Image](figures/CanID_Benchmark_PCA.jpg)
+**Figure 3.** Principal components plots generated through `CanID` benchmarking for 250, 500 and 1000 SNPs. 
+<br>
+<br>
