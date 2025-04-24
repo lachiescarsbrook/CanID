@@ -4,7 +4,7 @@ REF=$2
 SAMPLE=$3
 DOWN=$4
 #Runs Mapdamage to calculate damage statistics
-mapDamage --merge-reference-sequences -i $BAM -r $REF -d results/mapdamage/${SAMPLE}
+mapDamage --merge-reference-sequences -i $BAM -r $REF --no-stats -d results/mapdamage/${SAMPLE}
 
 #Moves all files to a shared directory
 mv results/mapdamage/${SAMPLE}/5pCtoT_freq.txt results/mapdamage/${SAMPLE}_5pCtoT_freq.txt
