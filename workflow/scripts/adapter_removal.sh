@@ -2,7 +2,7 @@
 IN=$1
 LIBRARY=$2
 #Searches input directory for fastq files with the given sample ID
-FILES=$(find $IN -type f \( -name "*${LIBRARY}*.fastq*" -o -name "*${LIBRARY}*.fq*" \) | sort)
+FILES=$(find "$IN" -type f \( -name "*.fastq*" -o -name "*.fq*" \) | grep -E "${LIBRARY}([_.-]|$)" | sort)
 #Assigns paired-end reads to separate variables 
 READ1=$(echo "$FILES" | sed -n '1p')
 READ2=$(echo "$FILES" | sed -n '2p')
