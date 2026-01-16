@@ -59,7 +59,7 @@ rule sex_ID:
         rmdup = "results/rmdup/{sample}_rmdup.bam",
         fasta = "results/mtDNA/{sample}.fasta"
     output:
-        out1 = "results/sexID/{sample}_chr1_38.txt",
+        out1 = "results/sexID/{sample}_chr.txt",
         out2 = "results/sexID/{sample}_cov_stat.txt",
         out3 = "results/sexID/{sample}_filtered.bam",
         out4 = "results/sexID/{sample}_filtered.bam.bai",
