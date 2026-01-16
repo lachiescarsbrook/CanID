@@ -11,7 +11,7 @@ samtools index results/sexID/${SAMPLE}_filtered.bam
 #Calculate coverage for all chromosomes/contigs
 samtools idxstats results/sexID/${SAMPLE}_filtered.bam | awk '{if ($2 != 0) print $1, $2, $3, $3 / $2; else print $1, $2, $3, "NA"}' > results/sexID/${SAMPLE}_cov_stat.txt
 #Creates file with autosomes only
-awk -v max="$CHROMOSOMES" '$1 ~ /^chr[0-9]+$/ { chr_num = substr($1, 4); if (chr_num >= 1 && chr_num <= max) print }' results/sexID/${SAMPLE}_cov_stat.txt > results/sexID/${SAMPLE}_chr1_${CHROMOSOMES}.txt
+awk -v max="$CHROMOSOMES" '$1 ~ /^chr[0-9]+$/ { chr_num = substr($1, 4); if (chr_num >= 1 && chr_num <= max) print }' results/sexID/${SAMPLE}_cov_stat.txt > results/sexID/${SAMPLE}_chr.txt
 
 ###############################
 # X-Chromosome Coverage Ratio #
@@ -19,9 +19,9 @@ awk -v max="$CHROMOSOMES" '$1 ~ /^chr[0-9]+$/ { chr_num = substr($1, 4); if (chr
 #Calculate mean depth of coverage across autosomes
 autosome_depth=$(awk -v max="$CHROMOSOMES" '$1 ~ /^chr[0-9]+$/ { chr_num = substr($1, 4); if (chr_num >= 1 && chr_num <= max) { sum += $4; count++ } } END { if (count > 0) print sum / count }' results/sexID/${SAMPLE}_cov_stat.txt)
 #Calculate standard deviation
-RA_SD=$(awk -v auto="$autosome_depth" '{diff = $4 - auto; sum += diff * diff} END {if (sum > 0) {result = sqrt(sum / 37);print result} else {print 0}}' results/sexID/${SAMPLE}_chr1_38.txt)
+RA_SD=$(awk -v auto="$autosome_depth" '{diff = $4 - auto; sum += diff * diff} END {if (sum > 0) {result = sqrt(sum / 37);print result} else {print 0}}' results/sexID/${SAMPLE}_chr.txt)
 #Calculate standard error
-RA_SE=$(awk -v val="$RA_SD" 'BEGIN { print val / sqrt(38) }')
+RA_SE=$(awk -v val="$RA_SD" -v n="$CHROMOSOMES" 'BEGIN { print val / sqrt(n) }')
 #Calculate 95% confidence interval
 RA_CI_MIN=$(awk -v auto="$autosome_depth" -v se="$RA_SE" 'BEGIN { printf "%.4g\n", auto - (2.026 * se)}')
 RA_CI_MAX=$(awk -v auto="$autosome_depth" -v se="$RA_SE" 'BEGIN { printf "%.4g\n", auto + (2.026 * se)}')
