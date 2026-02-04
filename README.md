@@ -1,24 +1,21 @@
-![Banner](figures/DomID_Logo.jpg)
+![Banner](figures/CanID_Logo.jpg)
 ## **Introduction**
-The Domestic Identification or `DomID` workflow takes both single- and paired-end screening data (<10M reads) as input, and accurately determines the taxonomic status (wild or domestic) of each ancient sample based on a modern reference panel, as well as calculating a suite of summary statistics (Fig. 1). The following wild and domestic taxa can be discriminated with `DomID`: 
+The Canid IDentification or `CanID` workflow takes both single- and paired-end screening data (<10M reads) as input, and accurately determines the taxonomic status (wild or domestic) of each ancient sample based on a modern reference panel, as well as calculating a suite of summary statistics (Fig. 1). The following wild and domestic taxa can be discriminated with `CanID`: 
 - :dog2: ***Canis:*** Wolf and Dog
-- :cow2: ***Bos:*** Aurochs and Cattle
-- :pig2: ***Sus:*** Wild Boar and Pig
-- :rabbit2: ***Oryctolagus:*** Wild and Domestic Rabbit
 
 ## **Citation**
-The manuscript which presents `DomID` is currently in preparation. In the meantime, please cite this workflow as follows: 
-- Scarsbrook, L. 2025. Domestic Identification (DomID) Workflow. GitHub. https://github.com/lachiescarsbrook/DomID.
+The manuscript which presents `CanID` is currently in preparation. In the meantime, please cite this workflow as follows: 
+- Scarsbrook, L. 2025. Canid IDentification (CanID) Workflow. GitHub. https://github.com/lachiescarsbrook/CanID.
 
 ## **Workflow Overview**
-![Sample Image](figures/DomID_Workflow.jpg)
-**Figure 1.** Overview of the `DomID` workflow, showing the function and output of each `snakemake` rule contained within the six modules.
+![Sample Image](figures/CanID_Workflow.jpg)
+**Figure 1.** Overview of the `CanID` workflow, showing the function and output of each `snakemake` rule contained within the six modules.
 <br>
 <br>
 
 ## **Setup**
 ### **Install Snakemake using Conda/Mamba**
-`DomID` utilises the `snakemake` workflow. The following four steps outline the installation of `snakemake` using the package managers `conda` and `mamba`.
+`CanID` utilises the `snakemake` workflow. The following four steps outline the installation of `snakemake` using the package managers `conda` and `mamba`.
 
 - **1.** Install the [Miniconda](https://docs.anaconda.com/free/miniconda/#quick-command-line-install) package manager (if required) following the command line installation for your operating system. 
 
@@ -39,11 +36,11 @@ mamba create -c conda-forge -c bioconda -n snakemake snakemake
 mamba activate snakemake
 ```
 
-### **Clone the DomID Repository**
-All of the rules, scripts, and environments required by this `snakemake` workflow can be downloaded from the `DomID` repository as follows: 
+### **Clone the CanID Repository**
+All of the rules, scripts, and environments required by this `snakemake` workflow can be downloaded from the `CanID` repository as follows: 
 ```
-git clone https://github.com/lachiescarsbrook/DomID.git
-cd DomID
+git clone https://github.com/lachiescarsbrook/CanID.git
+cd CanID
 ```
 
 To make all rules and scripts executable, permissions must be changed using:
@@ -52,7 +49,7 @@ chmod -R 770 workflow
 ```
 
 ### **Install ANGSD**
-While most programs utilised by `DomID` can be installed through `mamba`, a direct download of the genotyping tool [`angsd`](https://www.popgen.dk/angsd/index.php/ANGSD) is required to ensure the workflow is compatible with both Lunix/MacOS operating systems:
+While most programs utilised by `CanID` can be installed through `mamba`, a direct download of the genotyping tool [`angsd`](https://www.popgen.dk/angsd/index.php/ANGSD) is required to ensure the workflow is compatible with both Lunix/MacOS operating systems:
 ```
 cd workflow
 git clone https://github.com/ANGSD/angsd.git 
@@ -64,21 +61,17 @@ cd ../../
 
 ### **Download and Index the Reference Genome**
 To ensure genotypes in each reference panel can be directly compared with the unknown samples, specific reference genomes must be dowloaded for each taxa.
-- :dog2: ***Canis:*** A custom version of the [CanFam3.1](https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_000002285.5) dog genome assembly, which has been modified to contain a Y-chromosome for sex determination. To download, ensure you are in the `DomID` directory, and use the following:
+- :dog2: ***Canis:*** A custom version of the [CanFam3.1](https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_000002285.5) dog genome assembly, which has been modified to contain a Y-chromosome for sex determination. To download, ensure you are in the `CanID` directory, and use the following:
 
 ```
 TAG="1.0-beta"
 TAXA="canis"
 
-wget https://github.com/lachiescarsbrook/DomID/releases/download/${TAG}/${TAXA}.fa.gz -O ./workflow/files/${TAXA}.fa.gz
+wget https://github.com/lachiescarsbrook/CanID/releases/download/${TAG}/${TAXA}.fa.gz -O ./workflow/files/${TAXA}.fa.gz
 gunzip workflow/files/${TAXA}.fa.gz
 ```
-- :cow2: ***Bos:***
-- :pig2: ***Sus:***
-- :rabbit2: ***Oryctolagus:***
-- ***Mustela:***
 
-**Note:** `TAG` should reflect the most up-to-date release, which can be found [here](https://github.com/lachiescarsbrook/DomID/tags). `TAXA` should reflect the genus of interest.   
+**Note:** `TAG` should reflect the most up-to-date release, which can be found [here](https://github.com/lachiescarsbrook/CanID/tags). `TAXA` should reflect the genus of interest.   
 <br>
 
 The reference genome must then be indexed using [`bwa`](https://academic.oup.com/bioinformatics/article/25/14/1754/225615), which can be installed using `mamba`:
@@ -91,27 +84,27 @@ mamba deactivate bwa
 ```
 
 ### **Download the Modern Reference Panel**
-For each taxa, we have released a reference panel (in binary PLINK format) containing biallelic transversional SNPs, which are used to determine the taxonomic status of each sample through a combination of PCA projection and discriminant function analysis. To download, ensure you are still in the `DomID` directory, and use the following:
+For each taxa, we have released a reference panel (in binary PLINK format) containing biallelic transversional SNPs, which are used to determine the taxonomic status of each sample through a combination of PCA projection and discriminant function analysis. To download, ensure you are still in the `CanID` directory, and use the following:
 
 ```
 TAG="1.0-beta"
 TAXA="canis"
 
-wget https://github.com/lachiescarsbrook/DomID/releases/download/${TAG}/${TAXA}.bed -O ./workflow/files/${TAXA}.bed
-wget https://github.com/lachiescarsbrook/DomID/releases/download/${TAG}/${TAXA}.bim -O ./workflow/files/${TAXA}.bim
-wget https://github.com/lachiescarsbrook/DomID/releases/download/${TAG}/${TAXA}.fam -O ./workflow/files/${TAXA}.fam
-wget https://github.com/lachiescarsbrook/DomID/releases/download/${TAG}/${TAXA}_sites -O ./workflow/files/${TAXA}_sites
-wget https://github.com/lachiescarsbrook/DomID/releases/download/${TAG}/${TAXA}_sites.bin -O ./workflow/files/${TAXA}_sites.bin
-wget https://github.com/lachiescarsbrook/DomID/releases/download/${TAG}/${TAXA}_sites.idx -O ./workflow/files/${TAXA}_sites.idx
-wget https://github.com/lachiescarsbrook/DomID/releases/download/${TAG}/${TAXA}_status.txt -O ./workflow/files/${TAXA}_status.txt
+wget https://github.com/lachiescarsbrook/CanID/releases/download/${TAG}/${TAXA}.bed -O ./workflow/files/${TAXA}.bed
+wget https://github.com/lachiescarsbrook/CanID/releases/download/${TAG}/${TAXA}.bim -O ./workflow/files/${TAXA}.bim
+wget https://github.com/lachiescarsbrook/CanID/releases/download/${TAG}/${TAXA}.fam -O ./workflow/files/${TAXA}.fam
+wget https://github.com/lachiescarsbrook/CanID/releases/download/${TAG}/${TAXA}_sites -O ./workflow/files/${TAXA}_sites
+wget https://github.com/lachiescarsbrook/CanID/releases/download/${TAG}/${TAXA}_sites.bin -O ./workflow/files/${TAXA}_sites.bin
+wget https://github.com/lachiescarsbrook/CanID/releases/download/${TAG}/${TAXA}_sites.idx -O ./workflow/files/${TAXA}_sites.idx
+wget https://github.com/lachiescarsbrook/CanID/releases/download/${TAG}/${TAXA}_status.txt -O ./workflow/files/${TAXA}_status.txt
 ```
 
-You are now ready to run `DomID`!
+You are now ready to run `CanID`!
 <br>
 <br>
 
 ## **Quick Start**
-The `DomID` workflow requires parameters specified in two user-modified files to run, both of which are located in the `config` directory:
+The `CanID` workflow requires parameters specified in two user-modified files to run, both of which are located in the `config` directory:
 <br>
 <br>
 
@@ -147,10 +140,10 @@ snakemake --use-conda --cores 40
 <br>
 
 ## **Output**
-The main output of `DomID` are as follows:
-- **Species Identification:** using eigenvector multiplication in `smartpca`, `DomID` projects unknown samples onto principal components (PC) calculated from modern reference panels of wild and domestic populations. A PC plot (PC1-2) is stored in the `results/plots` directory (`Run`_PCA_plot.pdf).
-- **Sex Identification:** using the differential coverage across autosomes and sex chromosomes, `DomID` infers the molecular sex of unknown samples. An RX/RY plot is stored in the `results/plots` directory (`Run`_SexID_plot.pdf).
-- **Non-Target Species Identification:** by running `fastqscreen` with a database of mitochondrial genomes from taxa common in archaeological deposits, `DomID` ensures the unknown samples do not derive from non-target species.
+The main output of `CanID` are as follows:
+- **Species Identification:** using eigenvector multiplication in `smartpca`, `CanID` projects unknown samples onto principal components (PC) calculated from modern reference panels of wild and domestic populations. A PC plot (PC1-2) is stored in the `results/plots` directory (`Run`_PCA_plot.pdf).
+- **Sex Identification:** using the differential coverage across autosomes and sex chromosomes, `CanID` infers the molecular sex of unknown samples. An RX/RY plot is stored in the `results/plots` directory (`Run`_SexID_plot.pdf).
+- **Non-Target Species Identification:** by running `fastqscreen` with a database of mitochondrial genomes from taxa common in archaeological deposits, `CanID` ensures the unknown samples do not derive from non-target species.
 
 ### **Sample Summary Statistics**
 For each `Sample`, the following statistics are also calculated, with the output stored in the `results/stats/` directory:
