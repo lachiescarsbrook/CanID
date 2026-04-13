@@ -27,7 +27,7 @@ conda install -n base -c conda-forge mamba
 - **3.** Install [`snakemake`](https://snakemake.readthedocs.io/en/stable/getting_started/installation.html) using `mamba`:
 
 ```
-mamba create -c conda-forge -c bioconda -n snakemake snakemake
+mamba create -c conda-forge -c bioconda -n snakemake snakemake=9.5.1
 ```
 
 - **4.** Activate the environment:
