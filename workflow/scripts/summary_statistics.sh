@@ -57,9 +57,9 @@ RY=$(awk '{print $5}' results/sexID/${SAMPLE}_sex_stats.txt)
 RY_SE=$(awk '{print $6}' results/sexID/${SAMPLE}_sex_stats.txt)
 #fastqscreen species ID
 mtdna_species=$(cat results/plots/${RUN}_mtDNA_QC.txt | grep ${SAMPLE} | cut -f 2)
-#Percentage difference in mtDNA reads mapping to target and top hit 
-mtdna_diff=$(cat results/plots/${RUN}_mtDNA_QC.txt | grep ${SAMPLE} | cut -f 3)
 #Number of mtDNA reads mapping to top hit 
-mtdna_target=$(cat results/plots/${RUN}_mtDNA_QC.txt | grep ${SAMPLE} | cut -f 4)
+mtdna_target=$(cat results/plots/${RUN}_mtDNA_QC.txt | grep ${SAMPLE} | cut -f 3)
+#Relative difference in mtDNA reads mapping to target and top hit 
+mtdna_diff=$(cat results/plots/${RUN}_mtDNA_QC.txt | grep ${SAMPLE} | cut -f 4)
 #Outputs statistics
-echo -e "$SAMPLE\t$total\t$mapped_nodup\t$mapped30_nodup\t$duplicates\t$mtdna_read\t$mtdna_depth\t$mtdna_breadth\t$pseudo\t$len_map\t$len_all\t$CtoT\t$GtoA\t$RX\t$RX_MIN\t$RX_MAX\t$RY\t$RY_SE\t$mtdna_species\t$mtdna_diff\t$mtdna_target" >> ${OUT}
+echo -e "$SAMPLE\t$total\t$mapped_nodup\t$mapped30_nodup\t$duplicates\t$mtdna_read\t$mtdna_depth\t$mtdna_breadth\t$pseudo\t$len_map\t$len_all\t$CtoT\t$GtoA\t$RX\t$RX_MIN\t$RX_MAX\t$RY\t$RY_SE\t$mtdna_species\t$mtdna_target\t$mtdna_diff" >> ${OUT}
