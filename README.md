@@ -162,5 +162,6 @@ For each `Sample`, the following statistics are also calculated, with the output
 - `RX` `RX_Min` `RX_Max`: mean, minimum and maximum number of reads aligned to the X chromosome as a fraction of the expected aligned reads based on autosomal coverage.
 - `RY` `RY_SE`: mean and standard error for the number of reads aligned to the Y chromosome as a fraction of the total number of alignments to both sex chromosomes. 
 - `fastqscreen_Species`: species with the most number of mtDNA hits.
-- `fastqscreen_Difference`: percentage difference in the number of mtDNA hits to the target species and the top hit (should be 0).
 - `fastqscreen_Hits`: highest number of mtDNA hits.
+- `fastqscreen_Difference`: relative difference between the number of mtDNA hits to the target species and the next top hit.
+
