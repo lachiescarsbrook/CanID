@@ -155,4 +155,4 @@ rule all_stat:
     output:
         expand("results/stats/{run}_all_stats.txt", run = config["run"])
     shell:
-        "echo -e 'Sample\tTotal_Reads\tMapped_Reads_NoDup\tMapped_Reads_Q30_NoDup\tDuplicates\tmtDNA_Reads\tmtDNA_Depth\tmtDNA_Breadth\tSNPs\tMapped_Length_Mean\tMapped_Length_SD\tAll_Length_Mean\tAll_Length_SD\tC-toT\tG-to-A\tRX\tRX_Min\tRX_Max\tRY\tRY_SE\tfastqscreen_Species\tfastqscreen_Difference\tfastqscreen_Hits' > {output}; for stat in {input}; do awk 'NR==2' $stat >> {output}; done"
+        "echo -e 'Sample\tTotal_Reads\tMapped_Reads_NoDup\tMapped_Reads_Q30_NoDup\tDuplicates\tmtDNA_Reads\tmtDNA_Depth\tmtDNA_Breadth\tSNPs\tMapped_Length_Mean\tMapped_Length_SD\tAll_Length_Mean\tAll_Length_SD\tC-toT\tG-to-A\tRX\tRX_Min\tRX_Max\tRY\tRY_SE\tfastqscreen_Species\tfastqscreen_Hits\tfastqscreen_Difference' > {output}; for stat in {input}; do awk 'NR==2' $stat >> {output}; done"
